@@ -3,7 +3,7 @@
 
 const CodeforInterview = () => {
     return(
-        <p>hello from code</p>
+        <p>hello from CodeforInterview</p>
     )
 }
 

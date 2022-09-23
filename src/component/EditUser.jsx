@@ -2,7 +2,7 @@ import { useState ,useEffect} from "react";
 
 import { FormGroup, FormControl, InputLabel, Input, Typography, styled, Button } from "@mui/material";
 
-import { addUser, getUser } from "../service/api";
+import { editUser, getUser } from "../service/api";
 
 import {useNavigate,useParams} from 'react-router-dom';
 
@@ -33,7 +33,7 @@ const EditUser = () => {
 
     useEffect(()=>{
         loadUserDetails();
-    },[])
+    },[]);
      
     const loadUserDetails = async () => {
         const response = await getUser(id);
@@ -45,8 +45,8 @@ const EditUser = () => {
     }
 
 
-    const addUserDetails = async() =>{
-       await addUser(user);
+    const editUserDetails = async() =>{
+       await editUser(user,id);
        navigate('/all');
     }
 
@@ -60,18 +60,18 @@ const EditUser = () => {
             </FormControl>
             <FormControl>
                 <InputLabel>Username</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="username" />
+                <Input onChange={(e) => onValueChange(e)} name="username" value={user.username} />
             </FormControl>
             <FormControl>
                 <InputLabel>Email</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="email" />
+                <Input onChange={(e) => onValueChange(e)} name="email" value={user.email} />
             </FormControl>
             <FormControl>
                 <InputLabel>Phone</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="phone" />
+                <Input onChange={(e) => onValueChange(e)} name="phone" value={user.phone}/>
             </FormControl>
             <FormControl>
-                <Button variant="contained" onClick={() => addUserDetails()}>Edit User</Button>
+                <Button variant="contained" onClick={() => editUserDetails()}>Save</Button>
             </FormControl>
         </Container>
 
