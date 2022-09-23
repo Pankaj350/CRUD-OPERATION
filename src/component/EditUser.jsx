@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useState ,useEffect} from "react";
 
 import { FormGroup, FormControl, InputLabel, Input, Typography, styled, Button } from "@mui/material";
 
-import { addUser } from "../service/api";
+import { addUser, getUser } from "../service/api";
 
-import {useNavigate} from 'react-router-dom';
+import {useNavigate,useParams} from 'react-router-dom';
 
 const Container = styled(FormGroup)`
    width:50%;
@@ -22,12 +22,23 @@ const defaultValue = {
 }
 
 
-const AddUser = () => {
+const EditUser = () => {
 
 
     const [user, setUser] = useState(defaultValue);
 
     const navigate = useNavigate();
+
+    const { id } = useParams();
+
+    useEffect(()=>{
+        loadUserDetails();
+    },[])
+     
+    const loadUserDetails = async () => {
+        const response = await getUser(id);
+        setUser(response.data);
+    }
 
     const onValueChange = (e) => {
         setUser({...user,[e.target.name]:e.target.value});
@@ -42,10 +53,10 @@ const AddUser = () => {
 
     return (
         <Container>
-            <Typography variant="h4">Add User</Typography>
+            <Typography variant="h4">Edit User</Typography>
             <FormControl>
                 <InputLabel>Name</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="name" />
+                <Input onChange={(e) => onValueChange(e)} name="name" value={user.name} />
             </FormControl>
             <FormControl>
                 <InputLabel>Username</InputLabel>
@@ -60,11 +71,11 @@ const AddUser = () => {
                 <Input onChange={(e) => onValueChange(e)} name="phone" />
             </FormControl>
             <FormControl>
-                <Button variant="contained" onClick={() => addUserDetails()}>Add User</Button>
+                <Button variant="contained" onClick={() => addUserDetails()}>Edit User</Button>
             </FormControl>
         </Container>
 
     )
 }
 
-export default AddUser;
+export default EditUser;
